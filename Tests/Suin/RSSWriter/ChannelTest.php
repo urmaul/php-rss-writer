@@ -22,6 +22,14 @@ class ChannelTest extends \XoopsUnit\TestCase
 		$this->assertSame($channel, $channel->url($url));
 		$this->assertAttributeSame($url, 'url', $channel);
 	}
+    
+	public function testSelfLink()
+	{
+		$url = uniqid();
+		$channel = new Channel();
+		$this->assertSame($channel, $channel->selfLink($url));
+		$this->assertAttributeSame($url, 'selfLink', $channel);
+	}
 
 	public function testDescription()
 	{
@@ -201,6 +209,24 @@ class ChannelTest extends \XoopsUnit\TestCase
 				array(
 					'title'         => "GoUpstate.com News Headlines",
 					'url'           => 'http://www.goupstate.com/',
+					'description'   => "The latest news from GoUpstate.com, a Spartanburg Herald-Journal Web site.",
+					'copyright'     => "Copyright 2002, Spartanburg Herald-Journal",
+				)
+			),
+			array(
+				'
+				<channel xmlns:atom="http://www.w3.org/2005/Atom">
+					<title>GoUpstate.com News Headlines</title>
+					<link>http://www.goupstate.com/</link>
+					<description>The latest news from GoUpstate.com, a Spartanburg Herald-Journal Web site.</description>
+					<atom:link href="http://dallas.example.com/rss.xml" rel="self" type="application/rss+xml" />
+					<copyright>Copyright 2002, Spartanburg Herald-Journal</copyright>
+				</channel>
+				',
+				array(
+					'title'         => "GoUpstate.com News Headlines",
+					'url'           => 'http://www.goupstate.com/',
+					'selfLink'      => 'http://dallas.example.com/rss.xml',
 					'description'   => "The latest news from GoUpstate.com, a Spartanburg Herald-Journal Web site.",
 					'copyright'     => "Copyright 2002, Spartanburg Herald-Journal",
 				)
