@@ -153,11 +153,7 @@ class Item implements \Suin\RSSWriter\ItemInterface
 		if ( $this->guid )
 		{
 			$guid = $xml->addChild('guid', $this->guid);
-
-			if ( $this->isPermalink )
-			{
-				$guid->addAttribute('isPermaLink', 'true');
-			}
+            $guid->addAttribute('isPermaLink', $this->isPermalink ? 'true' : 'false');
 		}
 
 		if ( $this->pubDate !== null )
