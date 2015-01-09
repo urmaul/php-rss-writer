@@ -11,6 +11,8 @@ class Channel implements \Suin\RSSWriter\ChannelInterface
 	/** @var string */
 	protected $url;
 	/** @var string */
+	protected $selfLink;
+	/** @var string */
 	protected $description;
 	/** @var string */
 	protected $language;
@@ -44,6 +46,17 @@ class Channel implements \Suin\RSSWriter\ChannelInterface
 	public function url($url)
 	{
 		$this->url = $url;
+		return $this;
+	}
+
+	/**
+	 * Set self link
+	 * @param string $url
+	 * @return $this
+	 */
+	public function selfLink($url)
+	{
+		$this->selfLink = $url;
 		return $this;
 	}
 
@@ -151,6 +164,17 @@ class Channel implements \Suin\RSSWriter\ChannelInterface
 		$xml->addChild('title', $this->title);
 		$xml->addChild('link', $this->url);
 		$xml->addChild('description', $this->description);
+
+		if ( $this->selfLink !== null )
+		{
+            $dom = dom_import_simplexml($xml);
+            $dom->setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:atom", "http://www.w3.org/2005/Atom");
+            
+            $element = $xml->addChild('link', null, 'http://www.w3.org/2005/Atom');
+            $element->addAttribute('href', $this->selfLink);
+            $element->addAttribute('rel', 'self');
+            $element->addAttribute('type', 'application/rss+xml');
+		}
 
 		if ( $this->language !== null )
 		{
